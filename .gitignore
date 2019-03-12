@@ -1,0 +1,6 @@
+*.Rhistory
+*.Rproj
+data/**
+figs/**
+docs/**
+scripts/deprecated/**
