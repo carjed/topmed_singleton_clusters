@@ -1,5 +1,6 @@
 *.Rhistory
 *.Rproj
+.Rproj.user/**
 data/**
 figs/**
 docs/**
