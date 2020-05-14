@@ -30,7 +30,7 @@ exp_fits2_anc %>%
 p2_quartiles <- exp_fits2_anc %>%
   dplyr::filter(n==4) %>%
   # left_join(id_counts, by="ID") %>% head
-  dplyr::filter(!(pop == "EUR" & tot>15000)) %>%
+  # dplyr::filter(!(pop == "EUR" & tot>15000)) %>%
   left_join(exp_fits2_anc %>% 
               dplyr::filter(param=="p1") %>% 
               group_by(pop) %>%
@@ -58,7 +58,7 @@ p2_quartiles <- exp_fits2_anc %>%
   # facet_wrap(~pop)+
   # facet_grid(pop~ntile)+
   # scale_colour_viridis("Ancestry", discrete=TRUE, begin=0, end=0.8)+
-  scale_colour_manual("Ancestry", values=c("#FF7F00", "#33A02C"))+
+  scale_colour_manual("Ancestry", values=c("#FF7F00", "#E31A1C", "#33A02C"))+
   scale_shape_manual("Cluster class", values=c(3, 1, 7, 6, 4))+
   # scale_x_continuous(breaks=c(0:5), labels=10^c(0:-5))+
   scale_x_continuous(breaks=c(0:5), labels=10^c(0:5))+
@@ -82,12 +82,13 @@ p2_quartiles <- exp_fits2_anc %>%
 
 # save without marginal histograms
 p2_quartiles
-ggsave("ERV_mutation_hotspots/figs/exp.mix.rate.vs.prop.afr.eur.1k.filter.png", width=12, height=12)
+ggsave(paste0(projdir, "/figs/exp.mix.rate.vs.prop.afr.eur.1k.filter.png", width=12, height=12)
 
 p2 <- exp_fits2_anc %>%
   dplyr::filter(n==4) %>%
   # left_join(id_counts, by="ID") %>% head
-  dplyr::filter(!(pop == "EUR" & tot>15000)) %>%
+  # dplyr::filter(tot>15000) %>%
+  # dplyr::filter(!(pop == "EUR" & tot>15000)) %>%
   left_join(exp_fits2_anc %>% 
               dplyr::filter(param=="p1") %>% 
               group_by(pop) %>%
@@ -115,7 +116,7 @@ p2 <- exp_fits2_anc %>%
   # facet_wrap(~pop)+
   # facet_grid(pop~ntile)+
   # scale_colour_viridis("Ancestry", discrete=TRUE, begin=0, end=0.8)+
-  scale_colour_manual("Ancestry", values=c("#FF7F00", "#33A02C"))+
+  scale_colour_manual("Ancestry", values=c("#FF7F00", "#E31A1C", "#33A02C"))+
   scale_shape_manual("Cluster class", values=c(3, 1, 4, 0, 4))+
   # scale_x_continuous(breaks=c(0:5), labels=10^c(0:-5))+
   scale_x_continuous(breaks=c(0:5), labels=10^c(0:5))+
@@ -142,7 +143,7 @@ p2 <- exp_fits2_anc %>%
 # ggsave("ERV_mutation_hotspots/figs/exp.mix.rate.vs.prop.afr.eur.1k.filter.png", width=12, height=12)
 
 # save with marginal histograms
-marg.hist.title <- "ERV_mutation_hotspots/figs/exp.mix.rate.vs.prop.afr.eur.1k.marg.hist.png"
+marg.hist.title <- paste0(projdir, "/figs/exp.mix.rate.vs.prop.afr.eur.1k.marg.hist.png")
 png(marg.hist.title, width=12, height=6, units="in", res=300)
 ggMarginal(p2, type="histogram", position="identity", groupFill=T, colour=NA,  alpha = 0.8, xparams = list(bins=100), yparams = list(bins=100))
 dev.off()
@@ -167,7 +168,7 @@ p2a <- exp_fits2_anc %>%
   # facet_wrap(~pop)+
   # facet_grid(pop~ntile)+
   # scale_colour_viridis("Ancestry", discrete=TRUE, begin=0, end=0.8)+
-  scale_colour_manual("Ancestry", values=c("#FF7F00", "#33A02C"))+
+  scale_colour_manual("Ancestry", values=c("#FF7F00", "#E31A1C", "#33A02C"))+
   scale_shape_manual("Mixture component", values=c(3, 1, 7, 6))+
   scale_x_continuous(breaks=c(0:5), labels=10^c(0:5))+
   scale_y_continuous(breaks=seq(-3, 0, 1), labels=10^seq(-3, 0, 1))+
@@ -186,4 +187,4 @@ p2a <- exp_fits2_anc %>%
         legend.background = element_rect(fill="transparent", colour="black"))+
   transition_manual(ID, cumulative=TRUE)
 
-anim_save(filename = "ERV_mutation_hotspots/figs/mixture_component_animation.gif", animation = p2a)
+anim_save(filename = paste0(projdir, "/figs/mixture_component_animation.gif"), animation = p2a)

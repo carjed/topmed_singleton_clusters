@@ -5,3 +5,4 @@ data/**
 figs/**
 docs/**
 scripts/deprecated/**
+scripts/.ipynb_checkpoints/**

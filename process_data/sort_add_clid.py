@@ -17,7 +17,17 @@ parser.add_argument("-p", "--pop",
                     metavar='',
                     type=str)
 
+parser.add_argument("-C", "--config",
+                    help="path to yaml config with necessary paths",
+                    nargs='?',
+                    type=str,
+                    metavar='',
+                    default="./config.yaml")
+
 args = parser.parse_args()
+
+with open(args.config, "r") as f:
+    config = yaml.safe_load(f)
 
 ###############################################################################
 # print to stderr
@@ -30,18 +40,6 @@ def eprint(*args, **kwargs):
 # define paths
 #-----------------------------------------------------------------------------
 chrom = "chr" + str(args.chr)
-sourcedir = "/net/snowwhite/home/jedidiah/"
-pythonpath = sourcedir + "anaconda3/bin/python "
-bcftoolspath = sourcedir + "anaconda3/envs/anno/bin/bcftools "
-
-# vcfdir = "/net/topmed/working/dtaliun/TOPMed_paper_phased/unrelated/"
-# vcftail = ".freeze3a.gtonly.Eagle.Phased.unrelated_samples_for_analysis.min_ac_1.vcf.gz"
-# vcftest = "~/chr9.freeze3a.test.vcf"
-
-# viewcmd = bcftoolspath + "view -c 1 -C 1 " + vcfdir + chrom + vcftail
-# annocmd = pythonpath + sourcedir + "scripts/annotate_motifs.py -i - -f " + sourcedir + "/GRCh37-lite.fa -l 7"
-# querycmd = bcftoolspath + "query -f '%CHROM\\t%POS\\t%REF\\t%ALT\\t%INFO/type\\t%INFO/motif\\t%INFO/sample\\n'"
-# headercmd = "/bin/sed '1s/.*/CHR\\tPOS\\tREF\\tALT\\tTYPE\\tMOTIF\\tID\\n&/'"
 
 #-----------------------------------------------------------------------------
 # concatenate 1Mb chunks from each chromosome
@@ -49,7 +47,7 @@ bcftoolspath = sourcedir + "anaconda3/envs/anno/bin/bcftools "
 #-----------------------------------------------------------------------------
 # sourcedir + "topmed_freeze3_singletons/" + args.pop + "/" + \
 concatcmd = "ls -v " + \
-    sourcedir + "topmed_freeze5_singletons_mask/" + args.pop + "/" + \
+    config["sourcedir"] + "topmed_freeze5_singletons_mask/" + args.pop + "/" + \
     chrom + ".* | xargs cat"
 
 #-----------------------------------------------------------------------------
@@ -59,11 +57,11 @@ headercmd = "/bin/sed '1s/.*/CHR\\tPOS\\tREF\\tALT\\tTYPE\\tMOTIF\\tID\\n&/'"
 
 #-----------------------------------------------------------------------------
 # call add_dist.py to add 3 columns:
-# - distance to next singleton (D1: any individual) 
+# - distance to next singleton (D1: any individual)
 # - distance to next singleton (D2: same individual)
-# - number of singletons 
+# - number of singletons
 #-----------------------------------------------------------------------------
-distcmd = pythonpath + sourcedir + "scripts/add_dist.py -i - " 
+distcmd = config["pythonpath"] + " " + config["sourcedir"] + "scripts/add_dist.py -i - "
 
 #-----------------------------------------------------------------------------
 # sort by ID, then by position
@@ -78,17 +76,17 @@ sortcmd = "sort -k7,7 -k2,2n " # + \
 # - cluster width
 # - number of singletons in cluster
 #-----------------------------------------------------------------------------
-# clustoutdir = sourcedir + "topmed_freeze3_singletons/" + args.pop + "/sorted/" 
+# clustoutdir = sourcedir + "topmed_freeze3_singletons/" + args.pop + "/sorted/"
 # clustoutfile = clustoutdir + chrom + ".freeze3.singletons.sort.txt"
 # outfile = sourcedir + "topmed_freeze3_singletons/" + args.pop + "/sorted/" + \
-outfile = sourcedir + "topmed_freeze5_singletons_mask/" + args.pop + "/sorted/" + \
+outfile = config["sourcedir"] + "topmed_freeze5_singletons_mask/" + args.pop + "/sorted/" + \
     chrom + ".freeze5.singletons.sort.txt"
 
 # outfile = sourcedir + "topmed_freeze5_dnms/" + args.pop + "/sorted/" + \
 #     chrom + ".freeze3.singletons.sort.txt"
 
-clustcmd = pythonpath + sourcedir + "scripts/cluster_id.py -i - > " + outfile
-    
+clustcmd = config["pythonpath"] + " " + config["sourcedir"] + "process_data/cluster_id.py -i - > " + outfile
+
 
 #-----------------------------------------------------------------------------
 # assemble and run pipe

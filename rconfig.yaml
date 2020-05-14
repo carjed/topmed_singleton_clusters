@@ -1,0 +1,8 @@
+# full path to directory of project
+projdir: "/mnt/norbert/home/jedidiah/projects/ERV_mutation_hotspots"
+scriptdir: "/mnt/norbert/home/jedidiah/projects/ERV_mutation_hotspots/scripts"
+
+# directory containing topmed data
+datadir: "/mnt/norbert/data/topmed"
+decodedatadir: "/mnt/norbert/data/dnms"
+refdatadir: "/mnt/norbert/data/ref"

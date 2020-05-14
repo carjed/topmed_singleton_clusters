@@ -69,7 +69,7 @@ parser.add_argument("-r", "--ratefile",
                         the variant",
                     nargs='?',
                     type=str)
-                    
+
 parser.add_argument("-s", "--storesample",
                     help="add info field containing ID(s) of sample(s) \
                         carrying the variant",
@@ -205,32 +205,32 @@ def processVCF(args, inputvcf, outputvcf, subtypes_dict):
 
     samples = vcf_reader.samples
 
-    vcf_reader.add_info_to_header({'ID': 'type', 
+    vcf_reader.add_info_to_header({'ID': 'type',
         'Description': 'mutation type',
-        'Type':'Character', 
+        'Type':'Character',
         'Number': '1'})
 
-    vcf_reader.add_info_to_header({'ID': 'motif', 
+    vcf_reader.add_info_to_header({'ID': 'motif',
         'Description': 'k-mer centered at site',
-        'Type':'Character', 
+        'Type':'Character',
         'Number': '1'})
 
-    vcf_reader.add_info_to_header({'ID': 'subtype', 
+    vcf_reader.add_info_to_header({'ID': 'subtype',
         'Description': 'k-mer subtype',
-        'Type':'Character', 
+        'Type':'Character',
         'Number': '1'})
 
     if args.ratefile:
         rates_dict = indexRates(args.ratefile)
-        vcf_reader.add_info_to_header({'ID': 'rel_rate', 
+        vcf_reader.add_info_to_header({'ID': 'rel_rate',
             'Description': 'relative mutation rate',
-            'Type':'Float', 
+            'Type':'Float',
             'Number': '1'})
 
     if args.storesample:
-        vcf_reader.add_info_to_header({'ID': 'sample', 
+        vcf_reader.add_info_to_header({'ID': 'sample',
             'Description': 'sample ID',
-            'Type':'Character', 
+            'Type':'Character',
             'Number': '1'})
 
     # BRIDGES VCFs have several INFO fields that are not defined in the header
@@ -295,7 +295,7 @@ def processVCF(args, inputvcf, outputvcf, subtypes_dict):
 
                 # st = subtypes_dict[subtype]
                 record.INFO["subtype"] = subtype
-                
+
                 if args.ratefile:
                     record.INFO["rel_rate"] = rates_dict[subtype]
 
@@ -322,7 +322,7 @@ def processVCF(args, inputvcf, outputvcf, subtypes_dict):
                 record.INFO["type"] = "."
                 record.INFO["motif"] = "."
                 record.INFO["subtype"] = "."
-                
+
                 if args.storesample:
                     record.INFO["sample"] = "."
 
@@ -358,4 +358,4 @@ if args.verbose:
 ###############################################################################
 # Annotate VCF
 ###############################################################################
-processVCF(args, args.input, args.output, subtypes_dict)
+processVCF(args, args.input, args.output,subtypes_dict)

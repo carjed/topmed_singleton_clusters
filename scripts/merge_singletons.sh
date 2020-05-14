@@ -1,3 +1,0 @@
-(head -1 /net/snowwhite/home/jedidiah/topmed_freeze5_singletons_mask/eur/sorted/chr1.freeze5.singletons.sort.txt ; tail -n +2 -q /net/snowwhite/home/jedidiah/topmed_freeze5_singletons_mask/eur/sorted/*.txt ) > /net/snowwhite/home/jedidiah/topmed_freeze5_singletons_mask/eur/sorted/freeze5.singletons.sort.txt2
-
-(head -1 /net/snowwhite/home/jedidiah/topmed_freeze5_singletons_mask/afr/sorted/chr1.freeze5.singletons.sort.txt ; tail -n +2 -q /net/snowwhite/home/jedidiah/topmed_freeze5_singletons_mask/afr/sorted/*.txt ) > /net/snowwhite/home/jedidiah/topmed_freeze5_singletons_mask/afr/sorted/freeze5.singletons.sort.txt2

@@ -1,13 +1,22 @@
 
 sourcedir: "/net/snowwhite/home/jedidiah/"
-outdir: "/net/snowwhite/home/jedidiah/topmed_freeze5_dnms/merged/anno/"
-vcfdir: "/net/snowwhite/home/jedidiah/topmed_freeze5_dnms/merged/"
 
 pythonpath: "/net/snowwhite/home/jedidiah/anaconda3/envs/anno/bin/python"
 bcftoolspath: "/net/snowwhite/home/jedidiah/anaconda3/envs/anno/bin/bcftools"
 
+vcfdir: "/net/topmed8/working/call_sets/out.2017_05/release/minDP10/"
+vcfhead: "freeze65k."
+vcftail: ".pass_and_fail.anno.gtonly.minDP10.vcf.gz"
+
+dnmoutdir: "/net/snowwhite/home/jedidiah/topmed_freeze5_dnms/merged/anno/"
+dnmvcfdir: "/net/snowwhite/home/jedidiah/topmed_freeze5_dnms/merged/"
+
+# paths to reference genome builds
 grch37: "/net/snowwhite/home/jedidiah/GRCh37-lite.fa"
 grch38: "/net/topmed/working/mapping/gotcloud/ref/hg38/hs38DH.fa"
+#grch38: "/net/snowwhite/home/jedidiah/sandbox_data/hs38DH.fa"
+
+maskfile: "/net/snowwhite/home/jediidah/sandbox_data/topmed_65k_mask_full_keep.bed"
 
 freeze5_ancestry: "/net/topmed2/working/klemmerr/global_list_b38all.txt"
 freeze5_ped_related: "/net/topmed8/working/call_sets/out.2017_05/index/freeze5.64960.4606.ped"

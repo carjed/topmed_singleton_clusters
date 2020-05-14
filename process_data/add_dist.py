@@ -1,13 +1,7 @@
 import sys
 import argparse
-
 import csv
 from collections import defaultdict
-
-# outfile = "/mnt/norbert/data/bridges/bridges_ervs_3560_dist.txt"
-# outfh = open(outfile, 'w')
-
-# infile = "/mnt/norbert/data/bridges/bridges_ervs_3560.txt"
 
 parser = argparse.ArgumentParser()
 

@@ -2,14 +2,14 @@
 # read decode DNMs
 #-----------------------------------------------------------------------------
 
-chr22_dnms_fh <- "/mnt/norbert/data/dnms/decode_chr/anno/chr22.decode.dnms.sort.txt"
+chr22_dnms_fh <- paste0(decodedatadir, "/decode_chr/anno/chr22.decode.dnms.sort.txt")
 
 if(!file.exists(chr22_dnms_fh)){
   source("format_decode_dnms.R")
   # command(s) to process decode DNMs
 }
 
-data_path <- "/mnt/norbert/data/dnms/decode_chr/anno/"   # path to the data
+data_path <- paste0(decodedatadir, "/decode_chr/anno/"   # path to the data
 decode_dnm_files <- dir(data_path, pattern = "*.txt")
 
 decode_dnm_files <- data.frame(name = decode_dnm_files) %>%
@@ -47,7 +47,7 @@ dnms_decode_class <- decode_dnms %>%
   ungroup() %>%
   dplyr::select(-c(p1a:p3a))
 
-decode_dnms_v1 <- read_tsv("/mnt/norbert/data/dnms/decode_DNMs.tsv", col_names=TRUE)
+decode_dnms_v1 <- read_tsv(paste0(decodedatadir, "/decode_DNMs.tsv"), col_names=TRUE)
 names(decode_dnms_v1)[1:5] <- c("CHR", "POS", "REF", "ALT", "ID")
 
 decode_dnms_ages <- left_join(dnms_decode_class, decode_dnms_v1, by=c("CHR", "POS", "REF", "ALT", "ID")) %>%
@@ -65,7 +65,7 @@ summary(mod)
 # Read freeze 5 DNMs
 # New version filters to families, calls singletons in probands
 #-----------------------------------------------------------------------------
-data_path <- "/mnt/norbert/data/topmed/dnms/new_sorted/"   # path to the data
+data_path <- paste0(datadir, "/dnms/new_sorted/")   # path to the data
 dnm_files <- dir(data_path, pattern = "*.txt") # get file names
 
 dnm_files <- data.frame(name = dnm_files) %>%
@@ -82,7 +82,7 @@ dnms_anc <- merge(dnms, anc, by="ID")
 # 57513 eur dnms
 dnms_anc_eur <- dnms_anc %>% dplyr::filter(EUR>0.85)
 
-mitchell_ids <- read_tsv("/mnt/norbert/data/topmed/dnms/freeze5.mitchell.ids.txt", col_names=F) %>%
+mitchell_ids <- read_tsv(paste0(datadir, "/dnms/freeze5.mitchell.ids.txt"), col_names=F) %>%
   dplyr::select(ID=X1)
 
 dnms_anc_eur_na <- dnms_anc_eur %>%
@@ -130,7 +130,7 @@ dnm_spectra <- dnms %>% #data.frame %>% head
 #-----------------------------------------------------------------------------
 # Old (conservative) version--singletons only in probands
 #-----------------------------------------------------------------------------
-data_path_old <- "/mnt/norbert/data/topmed/dnms/old_sorted/"   # path to the data
+data_path_old <- paste0(datadir, "/dnms/old_sorted/"   # path to the data
 dnm_files_old <- dir(data_path_old, pattern = "*.txt") # get file names
 
 dnm_files_old <- data.frame(name = dnm_files_old) %>%
@@ -148,6 +148,7 @@ dnms_old_anc <- merge(dnms_old, anc_5, by="ID")
 # 57513 eur dnms
 dnms_old_anc_eur <- dnms_old_anc %>% dplyr::filter(EUR>0.85)
 
+# split for Amish vs non-Amish comparisons
 dnms_old_anc_eur_na <- dnms_old_anc_eur %>%
   dplyr::filter(!(ID %in% mitchell_ids$ID))
 
@@ -372,7 +373,7 @@ dnms_class %>% #dplyr::filter(TYPE=="C_G")
         legend.title=element_text(size=16),
         legend.text=element_text(size=12),
         legend.position="bottom")
-ggsave("ERV_mutation_hotspots/figs/dnm.spectra.new.png", width=12, height=6)
+ggsave(paste0(scriptdir, "/figs/dnm.spectra.new.png"), width=12, height=6)
 
 
 ## old version

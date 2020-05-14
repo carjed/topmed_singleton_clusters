@@ -4,12 +4,14 @@ import argparse
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("-c", "--chr",
-                    help="chromosome to run",
-                    nargs='?',
-                    type=int,
-                    metavar='',
-                    default=1)
+parser.add_argument(
+    "-c",
+    "--chr",
+    help="chromosome to run",
+    nargs='?',
+    type=int,
+    metavar='',
+    default=1)
 
 # parser.add_argument("-p", "--pop",
 #                     help="population data to aggregate (either eur or afr)",
@@ -18,6 +20,7 @@ parser.add_argument("-c", "--chr",
 #                     type=str)
 
 args = parser.parse_args()
+
 
 ###############################################################################
 # print to stderr
@@ -59,18 +62,18 @@ headercmd = "/bin/sed '1s/.*/CHR\\tPOS\\tREF\\tALT\\tTYPE\\tMOTIF\\tID\\n&/'"
 
 #-----------------------------------------------------------------------------
 # call add_dist.py to add 3 columns:
-# - distance to next singleton (D1: any individual) 
+# - distance to next singleton (D1: any individual)
 # - distance to next singleton (D2: same individual)
-# - number of singletons 
+# - number of singletons
 #-----------------------------------------------------------------------------
-distcmd = pythonpath + sourcedir + "scripts/add_dist.py -i - " 
+distcmd = pythonpath + sourcedir + "scripts/add_dist.py -i - "
 
 #-----------------------------------------------------------------------------
 # sort by ID, then by position
 #-----------------------------------------------------------------------------
-sortcmd = "sort -k7,7 -k2,2n " # + \
-    # sourcedir + "topmed_freeze3_singletons/" + \
-    # chrom + ".freeze3.singletons.txt"
+sortcmd = "sort -k7,7 -k2,2n "  # + \
+# sourcedir + "topmed_freeze3_singletons/" + \
+# chrom + ".freeze3.singletons.txt"
 
 #-----------------------------------------------------------------------------
 # annotate each singleton with 3 columns:
@@ -78,7 +81,7 @@ sortcmd = "sort -k7,7 -k2,2n " # + \
 # - cluster width
 # - number of singletons in cluster
 #-----------------------------------------------------------------------------
-# clustoutdir = sourcedir + "topmed_freeze3_singletons/" + args.pop + "/sorted/" 
+# clustoutdir = sourcedir + "topmed_freeze3_singletons/" + args.pop + "/sorted/"
 # clustoutfile = clustoutdir + chrom + ".freeze3.singletons.sort.txt"
 # outfile = sourcedir + "topmed_freeze3_singletons/" + args.pop + "/sorted/" + \
 #     chrom + ".freeze3.singletons.sort.txt"
@@ -89,7 +92,6 @@ outfile = sourcedir + "decode_dnms/anno/" + \
     chrom + ".decode.dnms.sort.txt"
 
 clustcmd = pythonpath + sourcedir + "scripts/cluster_id.py -i - > " + outfile
-    
 
 #-----------------------------------------------------------------------------
 # assemble and run pipe

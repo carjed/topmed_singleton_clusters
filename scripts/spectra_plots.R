@@ -1,7 +1,8 @@
 #-----------------------------------------------------------------------------
 # plot mutation spectra grouped by pop & cluster
 #-----------------------------------------------------------------------------
-spectra_by_clust <- test_sites %>% #data.frame %>% head
+spectra_by_clust <- test_sites %>%
+  #bind_rows(test_sites_eur, test_sites_afr, test_sites_eas) %>% #data.frame %>% head
   mutate(motif=substr(MOTIF,3,5)) %>%
   group_by(rate_clust, pop, TYPE, motif) %>%
   summarise(n=n()) %>%
@@ -17,26 +18,27 @@ spectra_by_clust_1mer <- spectra_by_clust %>%
   mutate(prop=n/sum(n)) 
 
 # test for difference in spectra
-spectra_by_clust_1mer %>% 
-  dplyr::select(-prop) %>% 
-  # dplyr::filter(TYPE %in% c("A_C", "A_T", "C_G", "C_A")) %>%
-  dplyr::filter(TYPE %in% c("A_C", "A_T")) %>%
-  group_by(pop) %>% 
-  spread(rate_clust, n) %>% 
-  do(tidy(chisq.test(cbind(.$c3, .$c4))))
-
-spectra_by_clust_1mer %>% 
-  dplyr::select(-prop) %>% 
-  # dplyr::filter(TYPE %in% c("A_C", "A_T", "C_G", "C_A")) %>%
-  # dplyr::filter(TYPE %in% c("A_C", "A_T")) %>%
-  group_by(rate_clust) %>% 
-  spread(pop, n) %>% 
-  do(tidy(chisq.test(cbind(.$AFR, .$EUR))))
+# spectra_by_clust_1mer %>% 
+#   dplyr::select(-prop) %>% 
+#   # dplyr::filter(TYPE %in% c("A_C", "A_T", "C_G", "C_A")) %>%
+#   dplyr::filter(TYPE %in% c("A_C", "A_T")) %>%
+#   group_by(pop) %>% 
+#   spread(rate_clust, n) %>% 
+#   do(tidy(chisq.test(cbind(.$c3, .$c4))))
+# 
+# spectra_by_clust_1mer %>% 
+#   dplyr::select(-prop) %>% 
+#   # dplyr::filter(TYPE %in% c("A_C", "A_T", "C_G", "C_A")) %>%
+#   # dplyr::filter(TYPE %in% c("A_C", "A_T")) %>%
+#   group_by(rate_clust) %>% 
+#   spread(pop, n) %>% 
+#   do(tidy(chisq.test(cbind(.$AFR, .$EUR))))
 
 devtools::install_github("awhstin/awtools")
 library(awtools)
 
-test_sites %>% #dplyr::filter(TYPE=="C_G")
+test_sites %>%
+# bind_rows(test_sites_eur, test_sites_afr, test_sites_eas) %>% #dplyr::filter(TYPE=="C_G")
   mutate(motif=substr(MOTIF,3,5)) %>%
   # group_by(TYPE, motif, rate_clust_m, pop) %>%
   group_by(TYPE, rate_clust, pop) %>%
@@ -67,19 +69,19 @@ test_sites %>% #dplyr::filter(TYPE=="C_G")
         legend.title=element_text(size=16),
         legend.text=element_text(size=12),
         legend.position="bottom")
-ggsave("ERV_mutation_hotspots/figs/spectra.afr.eur.by.clust.png", width=12, height=4)
+ggsave(paste0(projdir, "/figs/spectra.afr.eur.by.clust.png"), width=12, height=4)
 
 # 3-mer mutation spectra
 spectra_by_clust %>% #dplyr::filter(TYPE=="C_G")
   ggplot(aes(x=motif, y=prop, fill=rate_clust, alpha=pop))+
   geom_bar(stat="identity", position="dodge")+
-  scale_alpha_manual(values=c(0.6,1))+
+  scale_alpha_manual(values=c(0.6,0.8,1))+
   facet_grid(rate_clust~TYPE, scales="free_x")+
   # facet_grid(pop~rate_clust)+
   # facet_wrap(~rate_clust, ncol=1, strip.position="right")+
   theme_bw()+
   theme()
-ggsave("ERV_mutation_hotspots/figs/spectra3.afr.eur.by.clust.png", width=12, height=6)
+ggsave(paste0(projdir, "/figs/spectra3.afr.eur.by.clust.png"), width=12, height=6)
 
 #-----------------------------------------------------------------------------
 # plot change in spectra as inter-singleton distance increases
@@ -127,7 +129,7 @@ spectra_by_dist %>%
   # geom_point(aes(shape=breakpt), size=4)+
   # scale_x_continuous(expand=c(0,0))+
   scale_y_continuous(breaks=seq(0,0.4,by=0.05))+
-  scale_shape_manual(values=c(16,0), guide=FALSE)+
+  scale_shape_manual(values=c(16,15,0), guide=FALSE)+
   facet_grid(pop~gp, scales="free_x")+
   # facet_wrap(~gp, scales="free_x")+
   # geom_errorbar(aes(ymin = prop - 1.96*error, ymax = prop + 1.96*error, color=TYPE), width=0.05)+
@@ -152,4 +154,4 @@ spectra_by_dist %>%
         legend.title=element_text(size=16),
         legend.text=element_text(size=12),
         legend.position="bottom")
-ggsave("ERV_mutation_hotspots/figs/spectra_by_dist.png", width=12, height=8)
+ggsave(paste0(projdir, "/figs/spectra_by_dist.png"), width=12, height=8)
