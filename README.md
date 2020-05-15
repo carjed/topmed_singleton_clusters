@@ -1,11 +1,4 @@
-Modeling singleton distance distributions using exponential mixture models
-
-## Installation
-
-```{sh}
-git clone https://github.com/carjed/doomsayer.git
-cd doomsayer
-```
+Code for modeling singleton distance distributions using exponential mixture models, as shown in [Taliun et al., 2019](https://www.biorxiv.org/content/10.1101/563866v1)
 
 ## Preprocessing
 
@@ -14,3 +7,4 @@ There are several preprocessing steps required to filter and annotate singletons
 ## Analysis
 
 Once data is prepared, the scripts in the `scripts` directory will fit the exponential mixture models and run downstream analyses, generate plots, etc.
+
